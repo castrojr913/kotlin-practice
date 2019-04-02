@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">TestApp</string>
+
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">Cancelar</string>
+    <string name="button_submit">Enviar</string>
+    <string name="button_session">Entrar</string>
+
+    <string name="error_format_invalid">Formato Inválido</string>
+    <string name="error_empty">No debe ser vacío</string>
+
+    <string name="login_title">Login</string>
+    <string name="login_username">Usuario</string>
+    <string name="login_password">Contraseña</string>
+    <string name="login_remember">Recordar</string>
+
+</resources>

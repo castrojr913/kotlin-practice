@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Theme -->
+
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="colorDisabled">#888888</color>
+
+    <!-- Bottom Nav -->
+
+    <color name="colorBottomNavOn">@color/colorPrimaryDark</color>
+    <color name="colorBottomNavOff">@color/colorDisabled</color>
+
+</resources>

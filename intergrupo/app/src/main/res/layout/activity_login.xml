@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="vm" type="com.jacr.movieapp.presentation.viewmodel.login.LoginViewModel"/>
+    </data>
+    <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="@dimen/screen_margin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/login_username_text_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:error="@{vm.errorEmailText}"
+                app:errorEnabled="@{vm.errorEmailVisible}">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/login_username"
+                    android:text="@={vm.email}"
+                    android:onTextChanged="@{(text, start, before, count) -> vm.onEmailTextChangeCommand(text)}"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:error="@{vm.errorPasswordText}"
+                app:errorEnabled="@{vm.errorPasswordVisible}">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/login_password"
+                    android:text="@={vm.password}"
+                    android:inputType="textPassword"
+                    android:onTextChanged="@{(text, start, before, count) -> vm.onPasswordTextChangeCommand(text)}"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <androidx.appcompat.widget.AppCompatCheckedTextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+                android:checked="@{vm.remmemberMe}"
+                android:text="@string/login_remember"/>
+
+        <Button android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:onClick="@{() -> vm.onLoginCommand()}"
+                android:text="@string/button_session"/>
+
+    </LinearLayout>
+</layout>
