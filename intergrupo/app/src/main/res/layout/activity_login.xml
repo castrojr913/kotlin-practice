@@ -2,7 +2,7 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="vm" type="com.jacr.movieapp.presentation.viewmodel.login.LoginViewModel"/>
+        <variable name="vm" type="com.jacr.pruebatecnica.presentation.viewmodel.login.LoginViewModel"/>
     </data>
     <LinearLayout
             android:orientation="vertical"
