@@ -1,9 +1,8 @@
 package com.jacr.pruebatecnica.model.domain.session
 
-import androidx.lifecycle.LiveData
 import com.jacr.pruebatecnica.model.domain.dtos.UserDto
-import com.jacr.pruebatecnica.model.repository.base.ApiResponse
 import com.jacr.pruebatecnica.model.repository.entities.UserResponse
+import io.reactivex.Observable
 
 /**
  * Created: 3/31/19.
@@ -11,8 +10,8 @@ import com.jacr.pruebatecnica.model.repository.entities.UserResponse
  */
 interface ISessionDomain {
 
-    fun getLastSessionUser() : LiveData<UserResponse>
+    fun getLastSessionUser() : Observable<UserResponse>
 
-    fun signIn(user: UserDto) : LiveData<ApiResponse<UserResponse>>
+    fun signIn(user: UserDto) : Observable<UserResponse>
 
 }

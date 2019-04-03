@@ -1,9 +1,8 @@
 package com.jacr.pruebatecnica.model.domain.session
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.jacr.pruebatecnica.model.base.IPrefStorage
 import com.jacr.pruebatecnica.model.repository.entities.UserResponse
+import io.reactivex.Observable
 import khangtran.preferenceshelper.PrefHelper
 
 /**
@@ -22,10 +21,8 @@ class SessionUserCache : IPrefStorage<UserResponse> {
     override fun save(dto: UserResponse)
         = PrefHelper.setVal("$TAG", dto)
 
-    override fun get(): LiveData<UserResponse> {
-        return MutableLiveData<UserResponse>(
-            PrefHelper.getObjectVal("$TAG", UserResponse::class.java)
-        )
+    override fun get(): Observable<UserResponse> {
+        return Observable.fromArray(PrefHelper.getObjectVal("$TAG", UserResponse::class.java))
     }
 
 }

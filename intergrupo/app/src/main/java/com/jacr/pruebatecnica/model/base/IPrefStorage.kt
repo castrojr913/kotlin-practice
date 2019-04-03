@@ -1,6 +1,6 @@
 package com.jacr.pruebatecnica.model.base
 
-import androidx.lifecycle.LiveData
+import io.reactivex.Observable
 
 /**
  * Created: 3/31/19.
@@ -12,6 +12,6 @@ interface IPrefStorage<T> {
 
     fun save(dto: T)
 
-    fun get(): LiveData<T>
+    fun get(): Observable<T>
 
 }

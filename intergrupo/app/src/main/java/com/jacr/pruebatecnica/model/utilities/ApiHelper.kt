@@ -8,6 +8,7 @@ import com.jacr.pruebatecnica.model.repository.base.ApiStatus.DONE
 import com.jacr.pruebatecnica.model.repository.base.ApiStatus.START
 import com.jacr.pruebatecnica.presentation.utilities.LogHelper
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Modifier
 
@@ -31,7 +32,7 @@ object ApiHelper {
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC)
         return Retrofit.Builder()
             .baseUrl(ApiSettings.BASE_API)
-            .addCallAdapterFactory(LiveDataCallAdapterFactory())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(builder.create()))
             .build()
     }

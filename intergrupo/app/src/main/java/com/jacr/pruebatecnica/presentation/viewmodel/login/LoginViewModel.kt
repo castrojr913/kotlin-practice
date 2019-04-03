@@ -1,5 +1,6 @@
 package com.jacr.pruebatecnica.presentation.viewmodel.login
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import androidx.databinding.ObservableField
@@ -7,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import com.jacr.pruebatecnica.R
 import com.jacr.pruebatecnica.model.domain.dtos.UserDto
 import com.jacr.pruebatecnica.model.domain.session.ISessionDomain
-import com.jacr.pruebatecnica.model.utilities.ApiHelper.switchMapForApiResponse
 import com.jacr.pruebatecnica.presentation.utilities.ValidationHelper
 import javax.inject.Inject
 
@@ -61,23 +61,18 @@ class LoginViewModel @Inject constructor(
         return errorPasswordVisible.get()!!
     }
 
+    @SuppressLint("CheckResult")
     fun onLoginCommand() {
         val user = email.get().orEmpty()
         val password = password.get().orEmpty()
         if (!onEmailTextChangeCommand(user) &&
             !onPasswordTextChangeCommand(password)
         ) {
-            switchMapForApiResponse(domain.signIn(user = UserDto(email = user, password = password)),
-                doOnSuccess = {
-                    Log.d("LOGIN", "Is_Correct!!!")
-                    return@switchMapForApiResponse it
-                }, doOnSubscribe = {
-                    Log.d("LOGIN", "Iniciando Peticion")
-                }, doOnError = {
-                    Log.e("LOGIN", "Error")
-                }, doOnComplete = {
-                    Log.d("LOGIN", "Accion Completada")
-                })
+            val rq = domain.signIn(user = UserDto(user, password))
+            rq.subscribe(
+                { rs -> Log.d("LoginViewModel", "Login Exitoso -> ${rs.token}") },
+                { error -> Log.e("LoginViewModel", error.message) }
+            )
         }
     }
 
