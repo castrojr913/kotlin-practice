@@ -1,4 +1,4 @@
-package com.jacr.pruebatecnica.model.repository.entities
+package com.jacr.pruebatecnica.model.data.entities
 
 import com.google.gson.annotations.SerializedName
 
@@ -6,13 +6,13 @@ import com.google.gson.annotations.SerializedName
  * Created: 3/31/19.
  * Author: jesus.castro
  */
-data class ApiError (
+data class ErrorEntity (
 
     val code: Long = 0,
 
     @SerializedName(value = "error")
     val description: String = "",
 
-    val exception: Throwable = Exception()
+    var exception: Throwable? = null
 
 )

@@ -1,6 +1,6 @@
 package com.jacr.pruebatecnica.model.repository.session
 
-import com.jacr.pruebatecnica.model.repository.entities.UserResponse
+import com.jacr.pruebatecnica.model.data.entities.UserEntity
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -12,6 +12,6 @@ import retrofit2.http.Query
 interface SessionApiEndpoint {
 
     @GET("/application/login")
-    fun getSession(@Query("email") email: String, @Query("password") password: String): Observable<UserResponse>
+    fun getSession(@Query("email") email: String, @Query("password") password: String): Observable<UserEntity>
 
 }

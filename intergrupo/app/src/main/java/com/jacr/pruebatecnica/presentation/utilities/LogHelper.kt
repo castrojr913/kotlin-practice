@@ -13,7 +13,7 @@ object LogHelper {
 
     fun d(sourceClass: Class<*>, message: String) = Log.d(sourceClass.simpleName.toUpperCase(), message)
 
-    fun e(sourceClass: Class<*>, e: Throwable) = Log.e(sourceClass.simpleName.toUpperCase(), e.toString())
+    fun e(sourceClass: Class<*>, e: Throwable?) = Log.e(sourceClass.simpleName.toUpperCase(), e.toString())
 
     //</editor-fold>
 

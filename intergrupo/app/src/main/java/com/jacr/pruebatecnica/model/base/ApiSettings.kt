@@ -1,4 +1,4 @@
-package com.jacr.pruebatecnica.model.repository.base
+package com.jacr.pruebatecnica.model.base
 
 object ApiSettings {
 

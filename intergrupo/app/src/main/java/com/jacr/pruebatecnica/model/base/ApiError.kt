@@ -1,13 +1,10 @@
-package com.jacr.pruebatecnica.model.repository.base
+package com.jacr.pruebatecnica.model.base
 
 /**
  * Created: 3/3/19.
  * Author: jesus.castro
  */
-enum class ApiStatus {
-    OK,
-    START,
-    DONE,
+enum class ApiError {
     FAILURE_NETWORK,
     FAILURE_API,
     FAILURE_UNHANDLED

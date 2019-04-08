@@ -4,10 +4,16 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.jacr.pruebatecnica.R
-import com.jacr.pruebatecnica.model.domain.dtos.UserDto
+import com.jacr.pruebatecnica.model.data.dtos.Dto
+import com.jacr.pruebatecnica.model.data.dtos.request.UserRequestDto
+import com.jacr.pruebatecnica.model.data.dtos.response.UserDto
 import com.jacr.pruebatecnica.model.domain.session.ISessionDomain
+import com.jacr.pruebatecnica.presentation.utilities.MessageHelper
 import com.jacr.pruebatecnica.presentation.utilities.ValidationHelper
 import javax.inject.Inject
 
@@ -19,16 +25,23 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val domain: ISessionDomain,
     private val context: Context
-) : ViewModel() {
+) : ViewModel(), Observer<Dto<UserDto>> {
+
+    //<editor-fold desc="Variables">
 
     private val emailErrorId = R.string.error_format_invalid
     private val emptyErrorId = R.string.error_empty
 
-    //<editor-fold desc="Properties">
+    private var sessionLiveData: LiveData<Dto<UserDto>> = MutableLiveData()
+
+    private var isRememberChecked = false
+
+    //</editor-fold>
+
+    //<editor-fold desc="Observable Properties">
 
     var email: ObservableField<String> = ObservableField()
     var password: ObservableField<String> = ObservableField()
-    var remmemberMe: ObservableField<Boolean> = ObservableField()
     // ----
     var errorEmailVisible: ObservableField<Boolean> = ObservableField()
     var errorEmailText: ObservableField<String> = ObservableField()
@@ -65,15 +78,35 @@ class LoginViewModel @Inject constructor(
     fun onLoginCommand() {
         val user = email.get().orEmpty()
         val password = password.get().orEmpty()
-        if (!onEmailTextChangeCommand(user) &&
-            !onPasswordTextChangeCommand(password)
-        ) {
-            val rq = domain.signIn(user = UserDto(user, password))
-            rq.subscribe(
-                { rs -> Log.d("LoginViewModel", "Login Exitoso -> ${rs.token}") },
-                { error -> Log.e("LoginViewModel", error.message) }
-            )
+        if (sessionLiveData.hasActiveObservers()
+            || onEmailTextChangeCommand(user) || onPasswordTextChangeCommand(password)
+        ) return
+        sessionLiveData = domain.signIn(UserRequestDto(user, password))
+        sessionLiveData.observeForever(this)
+    }
+
+    fun onRememberCommand(isChecked: Boolean) {
+        if (!isChecked) return
+        isRememberChecked = true
+        sessionLiveData = domain.getLastAuthInfo()
+        sessionLiveData.observeForever(this)
+    }
+
+    override fun onChanged(dto: Dto<UserDto>?) {
+        if (dto != null) {
+            when {
+                isRememberChecked -> {
+                    email.set(dto.data?.user?.email)
+                    password.set(dto.data?.user?.password)
+                }
+                else -> when {
+                    dto.isSuccess() -> Log.d("LoginViewModel", "Login Exitoso -> ${dto.data?.token}")
+                    else -> MessageHelper.show(context, dto.error!!.description)
+                }
+            }
         }
+        isRememberChecked = false
+        sessionLiveData.removeObserver(this)
     }
 
     //</editor-fold>
