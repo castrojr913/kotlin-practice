@@ -2,7 +2,6 @@ package com.jacr.pruebatecnica.presentation.viewmodel.login
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,6 +14,9 @@ import com.jacr.pruebatecnica.model.data.dtos.response.UserDto
 import com.jacr.pruebatecnica.model.domain.session.ISessionDomain
 import com.jacr.pruebatecnica.presentation.utilities.MessageHelper
 import com.jacr.pruebatecnica.presentation.utilities.ValidationHelper
+import com.jacr.pruebatecnica.presentation.viewmodel.navigation.Navigation
+import com.jacr.pruebatecnica.presentation.viewmodel.navigation.NavigationView
+import com.jacr.pruebatecnica.presentation.viewmodel.navigation.NavigationView.*
 import javax.inject.Inject
 
 
@@ -24,16 +26,15 @@ import javax.inject.Inject
  */
 class LoginViewModel @Inject constructor(
     private val domain: ISessionDomain,
-    private val context: Context
+    private val context: Context,
+    private val navigation: Navigation
 ) : ViewModel(), Observer<Dto<UserDto>> {
 
     //<editor-fold desc="Variables">
 
     private val emailErrorId = R.string.error_format_invalid
     private val emptyErrorId = R.string.error_empty
-
     private var sessionLiveData: LiveData<Dto<UserDto>> = MutableLiveData()
-
     private var isRememberChecked = false
 
     //</editor-fold>
@@ -100,7 +101,7 @@ class LoginViewModel @Inject constructor(
                     password.set(dto.data?.user?.password)
                 }
                 else -> when {
-                    dto.isSuccess() -> Log.d("LoginViewModel", "Login Exitoso -> ${dto.data?.token}")
+                    dto.isSuccess() -> navigation.redirectTo(PROSPECTS)
                     else -> MessageHelper.show(context, dto.error!!.description)
                 }
             }
